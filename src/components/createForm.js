@@ -1,22 +1,38 @@
-import { TextField, Select, MenuItem, Button } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import { useState } from "react";
+import { createTodo } from "../api/todos";
+import addTags from "../api/todoTag";
 
 const CreateForm = () => {
   // ここでapiを呼び出す（create）
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [tag, setTag] = useState("");
+  const [tags, setTags] = useState([]);
 
-  const createTodo = () => {
-    console.log(title, description, tag);
-    setTitle("");
-    setDescription("");
-    setTag("");
+  const tagList = [
+    { name: "work", id: 0 },
+    { name: "private", id: 1 },
+    { name: "dev", id: 2 },
+    { name: "input", id: 3 },
+  ];
+
+  const handleCreateTodo = () => {
+    //データベースにtodoを投稿し、返答をtodoに格納する
+    const todo = createTodo(title, description);
+    //addTodoTagsにtodoのidを渡す
+    addTodoTags(todo.id);
   };
 
+  const addTodoTags = (id) => {
+    tags.map((tag) => {
+      //addTagsを繰り返し処理、todoのidを渡さないといけない
+      addTags(id, tag);
+    });
+  };
   return (
     <>
-      <form onSubmit={createTodo}>
+      <form onSubmit={handleCreateTodo}>
         <TextField
           id="title"
           label="title"
@@ -31,12 +47,22 @@ const CreateForm = () => {
           fullWidth
           onChange={(e) => setDescription(e)}
         />
-        <Select id="select" fullWidth>
-          <MenuItem value="work">work</MenuItem>
-          <MenuItem value="private">private</MenuItem>
-          <MenuItem value="dev">dev</MenuItem>
-          <MenuItem value="input">input</MenuItem>
-        </Select>
+        <Autocomplete
+          multiple
+          id="tags-standard"
+          options={tagList}
+          getOptionLabel={(option) => option.name}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="standard"
+              label="tags"
+              placeholder="タグを追加"
+              onChange={(e) => setTags([...tags, { name: e.name, id: e.id }])}
+            />
+          )}
+          fullWidth
+        />
         <Button fullWidth type="submit" value="sabmit">
           登録
         </Button>

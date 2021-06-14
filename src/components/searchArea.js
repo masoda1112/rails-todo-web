@@ -1,11 +1,12 @@
 import { Input, Button } from "@material-ui/core";
 import { useState } from "react";
+import { searchTodos } from "../api/todos";
 
 const SearchArea = () => {
   // ここでapiを呼び出す（get）
   const [searchQuery, setSearchQuery] = useState();
   const handleSubmit = () => {
-    console.log(searchQuery);
+    searchTodos(searchQuery);
     setSearchQuery("");
   };
   return (
