@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 
 const Todo = ({ todoTitle, todoDescription }) => {
+  // apiでtagsをgetする
   const tags = ["w", "d"];
   return (
     <>
