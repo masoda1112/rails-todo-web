@@ -1,8 +1,11 @@
+import SearchArea from "../components/searchArea";
+import ListArea from "../components/listArea";
 const ListPage = () => {
   return (
-    <div className="create">
-      <h1>list</h1>
-    </div>
+    <>
+      <SearchArea />
+      <ListArea />
+    </>
   );
 };
 export default ListPage;

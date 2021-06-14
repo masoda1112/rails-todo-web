@@ -1,5 +1,6 @@
 $main_color: #61dafb;
 .App {
+  padding-top: 50px;
   text-align: center;
   &-logo {
     height: 40vmin;
@@ -19,7 +20,10 @@ $main_color: #61dafb;
     color: $main_color;
   }
 }
-
+.body {
+  margin: 0 auto;
+  width: 90%;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

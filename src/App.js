@@ -7,7 +7,7 @@ const App = () => {
   return (
     <div className="App">
       <Router>
-        <div>
+        <div className="body">
           <Route exact path="/create" component={Create} />
           <Route exact path="/" component={List} />
         </div>
