@@ -2,6 +2,7 @@ import { Input, Button } from "@material-ui/core";
 import { useState } from "react";
 
 const SearchArea = () => {
+  // ここでapiを呼び出す（get）
   const [searchQuery, setSearchQuery] = useState();
   const handleSubmit = () => {
     console.log(searchQuery);

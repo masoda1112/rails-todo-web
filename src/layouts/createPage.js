@@ -1,6 +1,8 @@
 import { TextField, Select, MenuItem, Button } from "@material-ui/core";
 import { useState } from "react";
+
 const CreatePage = () => {
+  // ここでapiを呼び出す（create、get）
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("");
@@ -35,7 +37,9 @@ const CreatePage = () => {
           <MenuItem value="dev">dev</MenuItem>
           <MenuItem value="input">input</MenuItem>
         </Select>
-        <Button fullWidth>登録</Button>
+        <Button fullWidth type="submit" value="sabmit">
+          登録
+        </Button>
       </form>
     </>
   );

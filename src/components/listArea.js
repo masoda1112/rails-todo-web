@@ -8,8 +8,12 @@ const ListArea = () => {
   ];
   return (
     <div>
-      {todoList.map((todo) => {
-        <Todo title={todo.title} description={todo.description} />;
+      {todoList.map((todo, id) => {
+        return (
+          <div key={id}>
+            <Todo todoTitle={todo.title} todoDescription={todo.description} />
+          </div>
+        );
       })}
     </div>
   );
