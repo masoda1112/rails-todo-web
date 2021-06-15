@@ -14,6 +14,7 @@ const getTags = (todo_id) => {
   const todoTagList = [];
 
   // フィルタリングしたtodoTagsデータのtag_idでtagsデータを検索し、該当するtagをtodoTagListにpush
+  // これrailsでやるからいらんかもな
   todoTags.map((todoTag) => {
     tagsJson.tags.map((tag) => {
       if (tag.id == todoTag.tag_id) {
