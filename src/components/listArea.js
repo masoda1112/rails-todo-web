@@ -1,27 +1,23 @@
-import Todo from "./todo";
-import { getTodos } from "../api/todos";
 import React from "react";
-// import { useEffect } from "react";
+import PropTypes from "prop-types";
+import Todo from "./todo";
 
-const ListArea = () => {
-  getTodos();
-  // console.log(todos);
-  const todoList = [
-    { title: "読書", description: "イシューから始めよ" },
-    { title: "読書", description: "イシューから始めよ" },
-    { title: "読書", description: "イシューから始めよ" },
-    { title: "読書", description: "イシューから始めよ" },
-  ];
+const ListArea = ({ todoList }) => {
   return (
     <div>
       {todoList.map((todo, id) => {
         return (
           <div key={id}>
-            <Todo todoTitle={todo.title} todoDescription={todo.description} />
+            <Todo name={todo.name} id={todo.id} />
           </div>
         );
       })}
     </div>
   );
 };
+
+ListArea.propTypes = {
+  todoList: PropTypes.array,
+};
+
 export default ListArea;

@@ -2,7 +2,7 @@ import { TextField, Button } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { useState } from "react";
 import { createTodo } from "../api/todos";
-import addTags from "../api/todoTag";
+import { addTags } from "../api/todoTag";
 
 const CreateForm = () => {
   // ここでapiを呼び出す（create）
@@ -38,14 +38,14 @@ const CreateForm = () => {
           label="title"
           variant="outlined"
           fullWidth
-          onChange={(e) => setTitle(e)}
+          onChange={(value) => setTitle(value)}
         />
         <TextField
           id="description"
           label="description"
           variant="outlined"
           fullWidth
-          onChange={(e) => setDescription(e)}
+          onChange={(value) => setDescription(value)}
         />
         <Autocomplete
           multiple
@@ -58,7 +58,9 @@ const CreateForm = () => {
               variant="standard"
               label="tags"
               placeholder="タグを追加"
-              onChange={(e) => setTags([...tags, { name: e.name, id: e.id }])}
+              onChange={(value) =>
+                setTags([...tags, { name: value.name, id: value.id }])
+              }
             />
           )}
           fullWidth
