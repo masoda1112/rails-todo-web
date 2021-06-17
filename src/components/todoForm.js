@@ -6,20 +6,31 @@ import { createTodo } from "../api/todos";
 
 const CreateForm = () => {
   // ここでapiを呼び出す（create）
-  const [name, setName] = useState("");
+  const [todoName, setTodoName] = useState();
   const [tags, setTags] = useState([]);
 
   const tagList = [
-    { name: "work", id: 0 },
-    { name: "private", id: 1 },
-    { name: "dev", id: 2 },
-    { name: "input", id: 3 },
+    { name: "work", id: 1 },
+    { name: "private", id: 2 },
+    { name: "dev", id: 3 },
+    { name: "input", id: 4 },
   ];
 
-  const handleCreateTodo = () => {
+  const handleNameChange = (value) => {
+    setTodoName(value);
+  };
+
+  const handleTagChange = (value) => {
+    const tags_id = [];
+    value.map((v) => {
+      tags_id.push(v.id);
+    });
+    setTags(tags_id);
+  };
+  const handleCreateTodo = (e) => {
+    e.preventDefault();
     //データベースにtodoを投稿し、返答をtodoに格納する
-    createTodo(name, tags);
-    //addTodoTagsにtodoのidを渡す
+    createTodo(todoName, tags);
   };
 
   return (
@@ -30,22 +41,24 @@ const CreateForm = () => {
           label="name"
           variant="outlined"
           fullWidth
-          onChange={(value) => setName(value)}
+          onChange={(event) => handleNameChange(event.target.value)}
         />
         <Autocomplete
           multiple
           id="tags-standard"
           options={tagList}
           getOptionLabel={(option) => option.name}
+          onChange={(e, value) => {
+            handleTagChange(value);
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
               variant="standard"
               label="tags"
               placeholder="タグを追加"
-              onChange={(value) =>
-                setTags([...tags, { name: value.name, id: value.id }])
-              }
+              value={params.id}
+              // onChange={(value) => handleTagChange(value)}
             />
           )}
           fullWidth

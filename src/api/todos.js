@@ -2,20 +2,22 @@ import axios from "axios";
 
 const getTodos = () => {
   const res = axios.get(`http://localhost:3001/todos`).then((res) => res.data);
-  console.log(res);
   return res;
 };
 
-const searchTodos = (text) => {
-  return axios.get(`http://localhost:3001/todos/search/${text}`);
+const searchTodos = (name) => {
+  const res = axios
+    .get(`http://localhost:3001/todos/search/${name}`)
+    .then((res) => res.data);
+  return res;
 };
 
-const createTodo = (tagName, tagList) => {
+const createTodo = (todoName, tagList) => {
   const params = {
-    name: tagName,
-    tags: tagList,
+    name: todoName,
+    tags_id: tagList,
   };
-  return axios.post(`http://localhost:3001/todos/post`, params);
+  return axios.post(`http://localhost:3001/todos`, params);
 };
 
 const deleteTodo = (tagId) => {
