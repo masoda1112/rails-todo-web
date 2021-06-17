@@ -5,16 +5,11 @@ import { getTodos } from "../api/todos";
 
 const ListPage = () => {
   const [todoList, setTodoList] = useState([]);
+
   useEffect(async () => {
     setTodoList(getTodos());
   }, []);
 
-  // const todoList = [
-  //   { title: "読書", description: "イシューから始めよ" },
-  //   { title: "読書", description: "イシューから始めよ" },
-  //   { title: "読書", description: "イシューから始めよ" },
-  //   { title: "読書", description: "イシューから始めよ" },
-  // ];
   return (
     <>
       <SearchArea />

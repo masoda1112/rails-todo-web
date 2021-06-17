@@ -11,12 +11,17 @@ const searchTodos = (text) => {
   return todosJson.todos.filter((todo) => todo.name == text);
 };
 
-const createTodo = (title, description) => {
-  return axios.post(`localhost:3001/todo/post/${title}/${description}/`);
+const createTodo = (tagName, tagList) => {
+  return axios.post(`localhost:3001/todo/post`, {
+    name: tagName,
+    tags: tagList,
+  });
 };
 
-const deleteTodo = (id) => {
-  return axios.post(`localhost:3001/todo/delete/${id}/`);
+const deleteTodo = (tagId) => {
+  return axios.post(`localhost:3001/todo/delete`, {
+    id: tagId,
+  });
 };
 
 export { getTodos, searchTodos, createTodo, deleteTodo };

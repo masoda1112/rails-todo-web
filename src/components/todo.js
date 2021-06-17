@@ -1,14 +1,6 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import { getTags } from "../api/todoTag";
 
-const Todo = ({ name, id }) => {
-  // apiでtagsをgetする
-  const [tags, setTagsId] = useState([]);
-  useEffect(async () => {
-    setTagsId(getTags(id));
-  }, []);
-
+const Todo = ({ name, tags }) => {
   return (
     <>
       <div className="todo">
@@ -18,7 +10,7 @@ const Todo = ({ name, id }) => {
             {tags.map((tag, id) => {
               return (
                 <p className="tag" key={id}>
-                  {tag.label}
+                  {tag}
                 </p>
               );
             })}
@@ -63,7 +55,7 @@ const Todo = ({ name, id }) => {
 
 Todo.propTypes = {
   name: PropTypes.string,
-  id: PropTypes.number,
+  tags: PropTypes.array,
 };
 
 export default Todo;

@@ -2,12 +2,11 @@ import { TextField, Button } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { useState } from "react";
 import { createTodo } from "../api/todos";
-import { addTags } from "../api/todoTag";
+// import { addTags } from "../api/todoTag";
 
 const CreateForm = () => {
   // ここでapiを呼び出す（create）
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState("");
   const [tags, setTags] = useState([]);
 
   const tagList = [
@@ -19,33 +18,19 @@ const CreateForm = () => {
 
   const handleCreateTodo = () => {
     //データベースにtodoを投稿し、返答をtodoに格納する
-    const todo = createTodo(title, description);
+    createTodo(name, tags);
     //addTodoTagsにtodoのidを渡す
-    addTodoTags(todo.id);
   };
 
-  const addTodoTags = (id) => {
-    tags.map((tag) => {
-      //addTagsを繰り返し処理、todoのidを渡さないといけない
-      addTags(id, tag);
-    });
-  };
   return (
     <>
       <form onSubmit={handleCreateTodo}>
         <TextField
-          id="title"
-          label="title"
+          id="name"
+          label="name"
           variant="outlined"
           fullWidth
-          onChange={(value) => setTitle(value)}
-        />
-        <TextField
-          id="description"
-          label="description"
-          variant="outlined"
-          fullWidth
-          onChange={(value) => setDescription(value)}
+          onChange={(value) => setName(value)}
         />
         <Autocomplete
           multiple
