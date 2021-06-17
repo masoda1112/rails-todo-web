@@ -1,27 +1,28 @@
 import axios from "axios";
-import todosJson from "../stub/todos.json";
 
 const getTodos = () => {
-  // return axios.get(`localhost:3001/todo/get/`);
-  return todosJson.todos;
+  const res = axios.get(`http://localhost:3001/todos`).then((res) => res.data);
+  console.log(res);
+  return res;
 };
 
 const searchTodos = (text) => {
-  // return axios.get(`localhost:3001/todo/search/${text}/`);
-  return todosJson.todos.filter((todo) => todo.name == text);
+  return axios.get(`http://localhost:3001/todos/search/${text}`);
 };
 
 const createTodo = (tagName, tagList) => {
-  return axios.post(`localhost:3001/todo/post`, {
+  const params = {
     name: tagName,
     tags: tagList,
-  });
+  };
+  return axios.post(`http://localhost:3001/todos/post`, params);
 };
 
 const deleteTodo = (tagId) => {
-  return axios.post(`localhost:3001/todo/delete`, {
+  const params = {
     id: tagId,
-  });
+  };
+  return axios.delete(`http://localhost:3001/todos/`, params);
 };
 
 export { getTodos, searchTodos, createTodo, deleteTodo };

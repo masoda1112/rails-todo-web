@@ -5,9 +5,10 @@ import { getTodos } from "../api/todos";
 
 const ListPage = () => {
   const [todoList, setTodoList] = useState([]);
+  console.log(todoList);
 
   useEffect(async () => {
-    setTodoList(getTodos());
+    setTodoList(await getTodos());
   }, []);
 
   return (

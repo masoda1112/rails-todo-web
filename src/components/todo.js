@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 
 const Todo = ({ name, tags }) => {
+  console.log(tags);
   return (
     <>
       <div className="todo">
