@@ -2,65 +2,66 @@ import { TextField, Button } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { useState } from "react";
 import { createTodo } from "../api/todos";
-import { addTags } from "../api/todoTag";
+import { Link } from "react-router-dom";
+// import { addTags } from "../api/todoTag";
 
 const CreateForm = () => {
   // ここでapiを呼び出す（create）
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [todoName, setTodoName] = useState();
   const [tags, setTags] = useState([]);
 
   const tagList = [
-    { name: "work", id: 0 },
-    { name: "private", id: 1 },
-    { name: "dev", id: 2 },
-    { name: "input", id: 3 },
+    { name: "work", id: 1 },
+    { name: "private", id: 2 },
+    { name: "dev", id: 3 },
+    { name: "input", id: 4 },
   ];
 
-  const handleCreateTodo = () => {
-    //データベースにtodoを投稿し、返答をtodoに格納する
-    const todo = createTodo(title, description);
-    //addTodoTagsにtodoのidを渡す
-    addTodoTags(todo.id);
+  const handleNameChange = (value) => {
+    setTodoName(value);
   };
 
-  const addTodoTags = (id) => {
-    tags.map((tag) => {
-      //addTagsを繰り返し処理、todoのidを渡さないといけない
-      addTags(id, tag);
+  const handleTagChange = (value) => {
+    const tags_id = [];
+    value.map((v) => {
+      tags_id.push(v.id);
     });
+    setTags(tags_id);
   };
+  const handleCreateTodo = (e) => {
+    e.preventDefault();
+    //データベースにtodoを投稿し、返答をtodoに格納する
+    createTodo(todoName, tags);
+    setTodoName("");
+    setTags("");
+  };
+
   return (
     <>
       <form onSubmit={handleCreateTodo}>
         <TextField
-          id="title"
-          label="title"
+          id="name"
+          label="name"
           variant="outlined"
           fullWidth
-          onChange={(value) => setTitle(value)}
-        />
-        <TextField
-          id="description"
-          label="description"
-          variant="outlined"
-          fullWidth
-          onChange={(value) => setDescription(value)}
+          onChange={(event) => handleNameChange(event.target.value)}
         />
         <Autocomplete
           multiple
           id="tags-standard"
           options={tagList}
           getOptionLabel={(option) => option.name}
+          onChange={(e, value) => {
+            handleTagChange(value);
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
               variant="standard"
               label="tags"
               placeholder="タグを追加"
-              onChange={(value) =>
-                setTags([...tags, { name: value.name, id: value.id }])
-              }
+              value={params.id}
+              // onChange={(value) => handleTagChange(value)}
             />
           )}
           fullWidth
@@ -68,6 +69,7 @@ const CreateForm = () => {
         <Button fullWidth type="submit" value="sabmit">
           登録
         </Button>
+        <Link to="/">TODO一覧</Link>
       </form>
     </>
   );

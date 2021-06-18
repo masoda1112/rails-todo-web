@@ -1,22 +1,33 @@
 import axios from "axios";
-import todosJson from "../stub/todos.json";
+
+const apiUrl =
+  process.env.NODE_ENV == "production"
+    ? process.env.REACT_APP_PROD_API_URL
+    : process.env.REACT_APP_DEV_API_URL;
 
 const getTodos = () => {
-  // return axios.get(`localhost:3001/todo/get/`);
-  return todosJson.todos;
+  const res = axios.get(`${apiUrl}/todos`).then((res) => res.data);
+  return res;
 };
 
-const searchTodos = (text) => {
-  // return axios.get(`localhost:3001/todo/search/${text}/`);
-  return todosJson.todos.filter((todo) => todo.name == text);
+const searchTodos = (name) => {
+  const res = axios
+    .get(`${apiUrl}/todos/search/${name}`)
+    .then((res) => res.data);
+  console.log(res);
+  return res;
 };
 
-const createTodo = (title, description) => {
-  return axios.post(`localhost:3001/todo/post/${title}/${description}/`);
+const createTodo = (todoName, tagList) => {
+  const params = {
+    name: todoName,
+    tags_id: tagList,
+  };
+  return axios.post(`${apiUrl}/todos`, params);
 };
 
-const deleteTodo = (id) => {
-  return axios.post(`localhost:3001/todo/delete/${id}/`);
+const deleteTodo = (tagId) => {
+  return axios.delete(`${apiUrl}/todos/${tagId}`);
 };
 
 export { getTodos, searchTodos, createTodo, deleteTodo };

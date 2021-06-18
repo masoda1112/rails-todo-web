@@ -1,14 +1,12 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import { getTags } from "../api/todoTag";
+import { deleteTodo } from "../api/todos";
 
-const Todo = ({ name, id }) => {
-  // apiでtagsをgetする
-  const [tags, setTagsId] = useState([]);
-  useEffect(async () => {
-    setTagsId(getTags(id));
-  }, []);
-
+const Todo = ({ id, name, tags }) => {
+  console.log(id);
+  const handleDestroy = async () => {
+    await deleteTodo(id);
+    location.reload();
+  };
   return (
     <>
       <div className="todo">
@@ -18,14 +16,21 @@ const Todo = ({ name, id }) => {
             {tags.map((tag, id) => {
               return (
                 <p className="tag" key={id}>
-                  {tag.label}
+                  {tag}
                 </p>
               );
             })}
           </div>
         </div>
         <div className="delete-button-area">
-          <p className="delete-button">削除</p>
+          <p
+            className="delete-button"
+            onClick={() => {
+              handleDestroy();
+            }}
+          >
+            削除
+          </p>
         </div>
       </div>
       <style jsx>
@@ -62,8 +67,9 @@ const Todo = ({ name, id }) => {
 };
 
 Todo.propTypes = {
+  id: PropTypes.integer,
   name: PropTypes.string,
-  id: PropTypes.number,
+  tags: PropTypes.array,
 };
 
 export default Todo;

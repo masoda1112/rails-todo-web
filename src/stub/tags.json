@@ -1,8 +1,0 @@
-{
-  "tags":[
-    { "id": 0, "name": "work", "label": "w"},
-    { "id": 1, "name": "private", "label": "p"},
-    { "id": 2, "name": "dev", "label": "d"},
-    { "id": 3, "name": "input", "label": "i"}
-  ]   
-}
