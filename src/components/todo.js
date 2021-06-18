@@ -1,7 +1,12 @@
 import PropTypes from "prop-types";
+import { deleteTodo } from "../api/todos";
 
-const Todo = ({ name, tags }) => {
-  console.log(tags);
+const Todo = ({ id, name, tags }) => {
+  console.log(id);
+  const handleDestroy = async () => {
+    await deleteTodo(id);
+    location.reload();
+  };
   return (
     <>
       <div className="todo">
@@ -18,7 +23,14 @@ const Todo = ({ name, tags }) => {
           </div>
         </div>
         <div className="delete-button-area">
-          <p className="delete-button">削除</p>
+          <p
+            className="delete-button"
+            onClick={() => {
+              handleDestroy();
+            }}
+          >
+            削除
+          </p>
         </div>
       </div>
       <style jsx>
@@ -55,6 +67,7 @@ const Todo = ({ name, tags }) => {
 };
 
 Todo.propTypes = {
+  id: PropTypes.integer,
   name: PropTypes.string,
   tags: PropTypes.array,
 };

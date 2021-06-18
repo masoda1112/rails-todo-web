@@ -2,6 +2,7 @@ import { TextField, Button } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { useState } from "react";
 import { createTodo } from "../api/todos";
+import { Link } from "react-router-dom";
 // import { addTags } from "../api/todoTag";
 
 const CreateForm = () => {
@@ -31,6 +32,8 @@ const CreateForm = () => {
     e.preventDefault();
     //データベースにtodoを投稿し、返答をtodoに格納する
     createTodo(todoName, tags);
+    setTodoName("");
+    setTags("");
   };
 
   return (
@@ -66,6 +69,7 @@ const CreateForm = () => {
         <Button fullWidth type="submit" value="sabmit">
           登録
         </Button>
+        <Link to="/">TODO一覧</Link>
       </form>
     </>
   );

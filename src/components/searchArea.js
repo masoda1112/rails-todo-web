@@ -1,24 +1,29 @@
 import { Input, Button } from "@material-ui/core";
+import PropTypes from "prop-types";
 import { useState } from "react";
-import { searchTodos } from "../api/todos";
 
-const SearchArea = () => {
-  // ここでapiを呼び出す（get）
+const SearchArea = ({ handleTodoList }) => {
   const [searchQuery, setSearchQuery] = useState();
-  const handleSubmit = async () => {
-    searchTodos(await searchQuery);
-  };
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <div>
         <Input onChange={(event) => setSearchQuery(event.target.value)}>
           {searchQuery}
         </Input>
-        <Button type="submit" value="sabmit">
+        <Button
+          onClick={(e) => handleTodoList(e, searchQuery)}
+          type="submit"
+          value="sabmit"
+        >
           検索
         </Button>
-      </form>
+      </div>
     </div>
   );
 };
+
+SearchArea.propTypes = {
+  handleTodoList: PropTypes.func,
+};
+
 export default SearchArea;

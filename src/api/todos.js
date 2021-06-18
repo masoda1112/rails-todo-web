@@ -9,6 +9,7 @@ const searchTodos = (name) => {
   const res = axios
     .get(`http://localhost:3001/todos/search/${name}`)
     .then((res) => res.data);
+  console.log(res);
   return res;
 };
 
@@ -21,10 +22,7 @@ const createTodo = (todoName, tagList) => {
 };
 
 const deleteTodo = (tagId) => {
-  const params = {
-    id: tagId,
-  };
-  return axios.delete(`http://localhost:3001/todos/`, params);
+  return axios.delete(`http://localhost:3001/todos/${tagId}`);
 };
 
 export { getTodos, searchTodos, createTodo, deleteTodo };
