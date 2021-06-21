@@ -18,16 +18,24 @@ const searchTodos = (name) => {
   return res;
 };
 
-const createTodo = (todoName, tagList) => {
+const createTodo = (todoName, tagList, expiration_time) => {
   const params = {
     name: todoName,
     tags_id: tagList,
+    expiration_time: expiration_time,
   };
   return axios.post(`${apiUrl}/todos`, params);
 };
 
-const deleteTodo = (tagId) => {
-  return axios.delete(`${apiUrl}/todos/${tagId}`);
+const deleteTodo = (id) => {
+  return axios.delete(`${apiUrl}/todos/${id}`);
 };
 
-export { getTodos, searchTodos, createTodo, deleteTodo };
+const finishTodo = (id) => {
+  const params = {
+    is_finished: true,
+  };
+  return axios.put(`${apiUrl}/todos/${id}`, params);
+};
+
+export { getTodos, searchTodos, createTodo, deleteTodo, finishTodo };

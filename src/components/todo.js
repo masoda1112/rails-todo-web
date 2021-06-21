@@ -1,12 +1,16 @@
 import PropTypes from "prop-types";
 import { deleteTodo } from "../api/todos";
+import FinishButton from "./finishButton.js";
+import ExpirationMessage from "./expirationMessage";
 
-const Todo = ({ id, name, tags }) => {
+const Todo = ({ id, name, tags, isFinished, expiration_message }) => {
   console.log(id);
   const handleDestroy = async () => {
     await deleteTodo(id);
+    // todoListからidに該当するものを消す（setTodoList的な）
     location.reload();
   };
+
   return (
     <>
       <div className="todo">
@@ -22,6 +26,10 @@ const Todo = ({ id, name, tags }) => {
             })}
           </div>
         </div>
+        {!isFinished && <FinishButton id={id} />}
+        {!isFinished && (
+          <ExpirationMessage expiration_message={expiration_message} />
+        )}
         <div className="delete-button-area">
           <p
             className="delete-button"
@@ -70,6 +78,8 @@ Todo.propTypes = {
   id: PropTypes.integer,
   name: PropTypes.string,
   tags: PropTypes.array,
+  isFinished: PropTypes.boolean,
+  expiration_message: PropTypes.string,
 };
 
 export default Todo;
