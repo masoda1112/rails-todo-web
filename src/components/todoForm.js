@@ -10,6 +10,10 @@ const CreateForm = () => {
   const [todoName, setTodoName] = useState();
   const [tags, setTags] = useState([]);
   const [expirationTime, setExpirationTime] = useState();
+  const [errorMessage, setErrorMessage] = useState();
+  const [isError, setIsError] = useState(false);
+  const [apiResponse, setApiResponse] = useState([]);
+
   const history = useHistory();
 
   const tagList = [
@@ -24,27 +28,32 @@ const CreateForm = () => {
   };
 
   const handleTagChange = (value) => {
-    const tags_id = [];
-    value.map((v) => {
-      tags_id.push(v.id);
+    const tags_id = value.map((v) => {
+      v.id;
     });
     setTags(tags_id);
   };
+
   const handleTimeChange = (value) => {
     setExpirationTime(value);
   };
-  const handleCreateTodo = (e) => {
+
+  const handleCreateTodo = async (e) => {
     e.preventDefault();
-    //データベースにtodoを投稿し、返答をtodoに格納する
-    createTodo(todoName, tags, expirationTime);
-    setTodoName("");
-    setTags("");
-    history.push("/");
+    setApiResponse(await createTodo(todoName, tags, expirationTime));
+    if (apiResponse.status) {
+      setIsError(false);
+      history.push("/");
+    } else {
+      setErrorMessage(apiResponse.error_message);
+      setIsError(true);
+    }
   };
 
   return (
     <>
-      <form onSubmit={handleCreateTodo}>
+      <div>
+        {isError && <p className="error-message">{errorMessage}</p>}
         <TextField
           id="name"
           label="name"
@@ -88,11 +97,19 @@ const CreateForm = () => {
           type="submit"
           value="sabmit"
           disabled={todoName == null ? true : false}
+          onClick={handleCreateTodo}
         >
           登録
         </Button>
         <Link to="/">TODO一覧</Link>
-      </form>
+      </div>
+      <style jsx>
+        {`
+          .error-message {
+            background-color: red;
+          }
+        `}
+      </style>
     </>
   );
 };
