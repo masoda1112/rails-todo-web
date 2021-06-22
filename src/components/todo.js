@@ -3,8 +3,19 @@ import { deleteTodo } from "../api/todos";
 import FinishButton from "./finishButton.js";
 import ExpirationMessage from "./expirationMessage";
 
-const Todo = ({ id, name, tags, isFinished, expiration_message }) => {
-  console.log(id);
+const Todo = ({
+  id,
+  name,
+  tags,
+  isFinished,
+  expiration_message,
+  setFinishedModalStatus,
+  setFinishedTodo,
+  todoList,
+  setTodoList,
+  finishedTodoList,
+  setFinishedTodoList,
+}) => {
   const handleDestroy = async () => {
     await deleteTodo(id);
     // todoListからidに該当するものを消す（setTodoList的な）
@@ -26,7 +37,18 @@ const Todo = ({ id, name, tags, isFinished, expiration_message }) => {
             })}
           </div>
         </div>
-        {!isFinished && <FinishButton id={id} />}
+        {!isFinished && (
+          <FinishButton
+            id={id}
+            name={name}
+            setFinishedModalStatus={setFinishedModalStatus}
+            setFinishedTodo={setFinishedTodo}
+            todoList={todoList}
+            setTodoList={setTodoList}
+            finishedTodoList={finishedTodoList}
+            setFinishedTodoList={setFinishedTodoList}
+          />
+        )}
         {!isFinished && (
           <ExpirationMessage expiration_message={expiration_message} />
         )}
@@ -80,6 +102,12 @@ Todo.propTypes = {
   tags: PropTypes.array,
   isFinished: PropTypes.boolean,
   expiration_message: PropTypes.string,
+  setFinishedModalStatus: PropTypes.boolean,
+  setFinishedTodo: PropTypes.name,
+  todoList: PropTypes.array,
+  setTodoList: PropTypes.array,
+  finishedTodoList: PropTypes.array,
+  setFinishedTodoList: PropTypes.array,
 };
 
 export default Todo;

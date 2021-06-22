@@ -8,6 +8,8 @@ const ListPage = () => {
   // 2handleTodoListが走るとこれが更新される→再レンダリングされリセットん？違くね？だって、useState更新されても毎回レンダリングされないでしょ？
   const [todoList, setTodoList] = useState([]);
   const [finishedTodoList, setFinishedTodoList] = useState([]);
+  const [finishedModalStatus, setFinishedModalStatus] = useState(false);
+  const [finishedTodo, setFinishedTodo] = useState();
   const todoListTitle = "todoリスト";
   const finishedTodoListTitle = "完了したtodo";
 
@@ -37,10 +39,31 @@ const ListPage = () => {
 
   return (
     <>
+      <div className={finishedModalStatus ? "show" : "hide"}>
+        {finishedTodo}を完了しました！
+      </div>
       <SearchArea handleTodoList={handleTodoList} />
-      <ListArea todoList={todoList} title={todoListTitle} />
+      <ListArea
+        todoList={todoList}
+        setTodoList={setTodoList}
+        title={todoListTitle}
+        setFinishedModalStatus={setFinishedModalStatus}
+        setFinishedTodo={setFinishedTodo}
+        finishedTodoList={finishedTodoList}
+        setFinishedTodoList={setFinishedTodoList}
+      />
       <ListArea todoList={finishedTodoList} title={finishedTodoListTitle} />
       <Link to="/create">TODO登録</Link>
+      <style jsx>
+        {`
+          .hide {
+            display: none;
+          }
+          .show {
+            display: block;
+          }
+        `}
+      </style>
     </>
   );
 };
