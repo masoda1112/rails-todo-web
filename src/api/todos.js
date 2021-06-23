@@ -24,8 +24,7 @@ const createTodo = (todoName, tagList, expiration_time) => {
     tags_id: tagList,
     expiration_time: expiration_time,
   };
-  const res = axios.post(`${apiUrl}/todos`, params).then((res) => res.data);
-  return res;
+  return axios.post(`${apiUrl}/todos`, params);
 };
 
 const deleteTodo = (id) => {

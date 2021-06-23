@@ -17,9 +17,12 @@ const Todo = ({
   setFinishedTodoList,
 }) => {
   const handleDestroy = async () => {
+    console.log("handleDestroy");
     await deleteTodo(id);
     // todoListからidに該当するものを消す（setTodoList的な）
-    location.reload();
+    console.log(todoList);
+    const newTodoList = todoList.filter((t) => t.id != id);
+    setTodoList(newTodoList);
   };
 
   return (

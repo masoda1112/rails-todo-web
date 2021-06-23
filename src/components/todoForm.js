@@ -9,10 +9,8 @@ const CreateForm = () => {
   // ここでapiを呼び出す（create）
   const [todoName, setTodoName] = useState();
   const [tags, setTags] = useState([]);
-  const [expirationTime, setExpirationTime] = useState();
-  const [errorMessage, setErrorMessage] = useState();
-  const [isError, setIsError] = useState(false);
-  const [apiResponse, setApiResponse] = useState([]);
+  const [expirationTime, setExpirationTime] = useState("2021-06-24T10:30");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const history = useHistory();
 
@@ -40,20 +38,20 @@ const CreateForm = () => {
 
   const handleCreateTodo = async (e) => {
     e.preventDefault();
-    setApiResponse(await createTodo(todoName, tags, expirationTime));
-    if (apiResponse.status) {
-      setIsError(false);
-      history.push("/");
-    } else {
-      setErrorMessage(apiResponse.error_message);
-      setIsError(true);
-    }
+    await createTodo(todoName, tags, expirationTime)
+      .then(() => {
+        history.push("/");
+      })
+      .catch((err) => {
+        console.log(err.response);
+        setErrorMessage(err.response.data.message);
+      });
   };
 
   return (
     <>
       <div>
-        {isError && <p className="error-message">{errorMessage}</p>}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
         <TextField
           id="name"
           label="name"
@@ -65,7 +63,7 @@ const CreateForm = () => {
           id="datetime-local"
           label="expiration_time"
           type="datetime-local"
-          defaultValue="2020-06-22T10:30"
+          defaultValue="2021-06-24T10:30"
           fullWidth
           InputLabelProps={{
             shrink: true,

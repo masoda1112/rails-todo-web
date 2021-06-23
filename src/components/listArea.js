@@ -11,7 +11,6 @@ const ListArea = ({
   finishedTodoList,
   setFinishedTodoList,
 }) => {
-  console.log(todoList);
   return (
     <div>
       <h2>{title}</h2>

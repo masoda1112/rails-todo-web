@@ -12,6 +12,7 @@ const FinishButton = ({
   setFinishedTodoList,
 }) => {
   const handleFinish = () => {
+    console.log("handleFinish");
     finishTodo(id);
     setFinishedModalStatus(true);
     setFinishedTodo(name);

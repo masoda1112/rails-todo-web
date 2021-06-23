@@ -15,8 +15,10 @@ const ListPage = () => {
 
   // 1検索押すとこれが走る 4useEffectに呼び出されてこれが走る（searchQueryは空）
   const handleTodoList = async (e, searchQuery) => {
-    // e.preventDefault();
-    setTodoList(await searchTodos(searchQuery));
+    e.preventDefault();
+    await searchTodos(searchQuery).then((res) => {
+      setTodoList(res);
+    });
   };
 
   // 3再レンダリングされるとこれが走る
@@ -36,7 +38,6 @@ const ListPage = () => {
     setTodoList(resTodoList);
     console.log(todoList);
   }, []);
-
   return (
     <>
       <div className={finishedModalStatus ? "show" : "hide"}>
