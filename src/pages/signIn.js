@@ -1,15 +1,17 @@
 import { TextField, Button } from "@material-ui/core";
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory, Link } from "react-router-dom";
 import Cookies from "js-cookie";
 
 import { signIn } from "../api/auth";
 import { AuthContext } from "../App";
+import AlertMessage from "../components/alertMessage";
 
 const SignIn = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
+  const [alertMessageOpen, setAlertMessageOpen] = useState(false);
   const history = useHistory();
   const handleSubmit = async () => {
     try {
@@ -25,9 +27,11 @@ const SignIn = () => {
         console.log("Signed in successfully!");
       } else {
         console.log("error");
+        setAlertMessageOpen(true);
       }
     } catch (err) {
       console.log(err);
+      setAlertMessageOpen(true);
     }
   };
 
@@ -69,6 +73,12 @@ const SignIn = () => {
         <Link to="/signup" className="signup-link">
           Sign Up now!
         </Link>
+        <AlertMessage // エラーが発生した場合はアラートを表示
+          open={alertMessageOpen}
+          setOpen={setAlertMessageOpen}
+          severity="error"
+          message="Invalid emai or password"
+        />
       </div>
     </>
   );
