@@ -14,7 +14,7 @@ export const signUp = (name, email, password, passwordConfirmation) => {
     password: password,
     passwordConfirmation: passwordConfirmation,
   };
-  return axios.post(`${apiUrl}/api/v1/auth`, params);
+  return axios.post(`${apiUrl}/v1/auth`, params);
 };
 
 // サインイン（ログイン）
@@ -23,26 +23,33 @@ export const signIn = (email, password) => {
     email: email,
     password: password,
   };
-  return axios.post(`${apiUrl}/api/v1/auth/sign_in`, params);
+  return axios.post(`${apiUrl}/v1/auth/sign_in`, params);
 };
 
 // サインアウト（ログアウト）
 export const signOut = () => {
-  return axios.delete(`${apiUrl}/api/v1/auth/sign_out`, {
+  return axios.delete(`${apiUrl}/v1/auth/sign_out`, {
     headers: {
-      'access-token': Cookies.get("_access_token"),
-      "client": Cookies.get("_client"),
-      "uid": Cookies.get("_uid"),
+      "access-token": Cookies.get("_access_token"),
+      client: Cookies.get("_client"),
+      uid: Cookies.get("_uid"),
     },
   });
 };
 
 // 認証済みのユーザーを取得
 export const getCurrentUser = () => {
-  if (!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid")) return
-  return axios.get("/api/v1/auth/sessions", { headers: {
-    "access-token": Cookies.get("_access_token"),
-    "client": Cookies.get("_client"),
-    "uid": Cookies.get("_uid")
-  }})
-}
+  if (
+    !Cookies.get("_access_token") ||
+    !Cookies.get("_client") ||
+    !Cookies.get("_uid")
+  )
+    return;
+  return axios.get("/v1/auth/sessions", {
+    headers: {
+      "access-token": Cookies.get("_access_token"),
+      client: Cookies.get("_client"),
+      uid: Cookies.get("_uid"),
+    },
+  });
+};

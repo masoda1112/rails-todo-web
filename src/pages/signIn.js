@@ -1,13 +1,36 @@
 import { TextField, Button } from "@material-ui/core";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useHistory, Link } from "react-router-dom";
+import Cookies from "js-cookie";
+
 import { signIn } from "../api/auth";
+import { AuthContext } from "../App";
 
 const SignIn = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const handleSubmit = () => {
-    signIn(email, password);
+  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
+  const history = useHistory();
+  const handleSubmit = async () => {
+    try {
+      const res = await signIn(email, password);
+      if (res.status === 200) {
+        Cookies.set("_access_token", res.headers["access-token"]);
+        Cookies.set("_client", res.headers["client"]);
+        Cookies.set("_uid", res.headers["uid"]);
+
+        setIsSignedIn(true);
+        setCurrentUser(res.data.data);
+        history.push("/");
+        console.log("Signed in successfully!");
+      } else {
+        console.log("error");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
+
   return (
     <>
       <div>
@@ -43,6 +66,9 @@ const SignIn = () => {
         >
           Submit
         </Button>
+        <Link to="/signup" className="signup-link">
+          Sign Up now!
+        </Link>
       </div>
     </>
   );

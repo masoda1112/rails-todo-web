@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { getTodos, searchTodos } from "../api/todos";
 import { Link } from "react-router-dom";
 
+import Header from "../components/header.js";
+
 const ListPage = () => {
   // 2handleTodoListが走るとこれが更新される→再レンダリングされリセットん？違くね？だって、useState更新されても毎回レンダリングされないでしょ？
   const [todoList, setTodoList] = useState([]);
@@ -40,6 +42,9 @@ const ListPage = () => {
   }, []);
   return (
     <>
+      <header>
+        <Header />
+      </header>
       <div className={finishedModalStatus ? "show" : "hide"}>
         {finishedTodo}を完了しました！
       </div>

@@ -1,15 +1,40 @@
 import { TextField, Button } from "@material-ui/core";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
+
+import Cookies from "js-cookie";
 import { signUp } from "../api/auth";
+import { AuthContext } from "../App";
 
 const SignUp = () => {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [passwordConfirmation, setPasswordConfirmation] = useState();
-  const handleSubmit = () => {
-    signUp(name, email, password, passwordConfirmation);
+  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
+  const history = useHistory();
+  const handleSubmit = async () => {
+    try {
+      const res = await signUp(name, email, password, passwordConfirmation);
+      if (res.status === 200) {
+        Cookies.set("_access_token", res.headers["access-token"]);
+        Cookies.set("_client", res.headers["client"]);
+        Cookies.set("_uid", res.headers["uid"]);
+
+        setIsSignedIn(true);
+        setCurrentUser(res.data.data);
+
+        history.push("/");
+
+        console.log("Signed in successfully!");
+      } else {
+        console.log("error");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
+
   return (
     <>
       <div>
